@@ -1,202 +1,285 @@
-import React from "react";
-import { motion } from "framer-motion";
-
-// Single-file React component: DigitasLikeLanding
-// Tailwind CSS classes assumed to be available in the project.
-// This component is a starting point — hero, services, case studies, contact CTA, footer.
-// Default export a React component so it can be dropped into a Next.js / CRA page.
-
-export default function DigitasLikeLanding() {
-  return (
-    <div className="min-h-screen bg-white text-slate-800 antialiased">
-      {/* Navbar */}
-      <header className="w-full border-b border-slate-100">
-        <div className="max-w-7xl mx-auto px-6 py-5 flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 bg-gradient-to-r from-indigo-600 to-teal-400 rounded-lg flex items-center justify-center text-white font-bold">Q</div>
-            <div>
-              <span className="font-semibold text-lg">QST Agency</span>
-              <div className="text-xs text-slate-500">Strategic Digital Experiences</div>
-            </div>
-          </div>
-
-          <nav className="hidden md:flex items-center gap-6 text-sm text-slate-600">
-            <a href="#work" className="hover:text-slate-900">Work</a>
-            <a href="#services" className="hover:text-slate-900">Services</a>
-            <a href="#insights" className="hover:text-slate-900">Insights</a>
-            <a href="#careers" className="hover:text-slate-900">Careers</a>
-            <a href="#contact" className="px-4 py-2 bg-slate-900 text-white rounded-md">Contact</a>
-          </nav>
-
-          <button className="md:hidden p-2 rounded-md border border-slate-200">Menu</button>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pulse Studio — Digital Marketing & Experience</title>
+  <meta name="description" content="Pulse Studio — digital marketing, experience design, paid media and analytics. Inspired creative agency template." />
+  <style>
+    :root{
+      --bg:#081029;
+      --card:#0e1a2b;
+      --muted:#9fb0c8;
+      --accent:#00d4ff;
+      --accent2:#7c3aed;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px;
+      --max-width:1200px;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      color-scheme: dark;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: linear-gradient(180deg,#021028 0%, #071730 100%);
+      color: #e8f4ff;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.45;
+    }
+    .container{max-width:var(--max-width);margin:0 auto;padding:28px}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{
+      width:48px;height:48px;border-radius:10px;
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      display:flex;align-items:center;justify-content:center;font-weight:800;color:#021028;
+      box-shadow:0 6px 20px rgba(0,0,0,0.5);
+    }
+    nav{display:flex;gap:18px;align-items:center}
+    nav a{color:var(--muted);text-decoration:none;font-weight:600;padding:8px;border-radius:8px}
+    nav a:hover{color:var(--accent)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),var(--accent2));padding:9px 14px;border-radius:10px;color:#021028;font-weight:800;text-decoration:none}
+    .hero{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:28px;
+      align-items:stretch;
+      margin-top:26px;
+    }
+    .hero-card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:18px;
+      padding:28px;
+      box-shadow: 0 10px 40px rgba(2,6,23,0.6);
+      position:relative;
+      overflow:hidden;
+    }
+    .kicker{display:inline-block;background:rgba(255,255,255,0.04);padding:6px 10px;border-radius:999px;color:var(--muted);font-weight:700;margin-bottom:12px}
+    h1{margin:6px 0 8px;font-size:34px;line-height:1.05}
+    p.lead{color:var(--muted);margin:0 0 16px}
+    .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+    .service{background:var(--card);padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .service h4{margin:0 0 8px;font-size:15px}
+    .service p{margin:0;color:var(--muted);font-size:13px}
+    /* Right column */
+    .visual{
+      border-radius:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      padding:18px;
+      display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;
+      min-height:360px;
+    }
+    .work-preview{width:100%;height:220px;border-radius:10px;background:linear-gradient(135deg,#072033,#14314a);display:flex;align-items:center;justify-content:center;color:var(--muted);font-weight:700}
+    /* Featured case studies */
+    .cases{margin-top:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .case{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));padding:14px;border-radius:12px;border:1px solid rgba(255,255,255,0.02)}
+    .case h3{margin:0 0 8px;font-size:16px}
+    .case p{margin:0;color:var(--muted);font-size:13px}
+    /* Insights strip */
+    .insights{margin-top:26px;display:flex;gap:12px;overflow:hidden}
+    .insight{min-width:300px;background:rgba(255,255,255,0.02);padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02)}
+    /* Footer */
+    footer{margin-top:36px;color:var(--muted);display:flex;justify-content:space-between;align-items:center}
+    /* small screens */
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr}
+      .services-grid{grid-template-columns:repeat(2,1fr)}
+      .cases{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width:560px){
+      .services-grid{grid-template-columns:1fr}
+      .cases{grid-template-columns:1fr}
+      nav{display:none}
+      header{justify-content:space-between}
+    }
+    /* subtle animated background shapes */
+    .bg-shape{
+      position:absolute;right:-80px;top:-40px;width:300px;height:300px;border-radius:50%;
+      background:radial-gradient(circle at 30% 30%, rgba(124,58,237,0.28), rgba(0,212,255,0.12));
+      filter:blur(40px);transform:scale(1.1);opacity:0.9;pointer-events:none;
+    }
+    /* accessible focus */
+    a:focus, button:focus { outline:3px solid rgba(0,212,255,0.14); outline-offset:2px; }
+  </style>
+</head>
+<body>
+  <div class="container" role="document">
+    <header>
+      <div class="brand" aria-label="Brand">
+        <div class="logo" aria-hidden="true">P</div>
+        <div>
+          <div style="font-weight:800">Pulse Studio</div>
+          <div style="font-size:13px;color:var(--muted)">Digital experiences & growth</div>
         </div>
-      </header>
+      </div>
 
-      {/* Hero */}
-      <main>
-        <section className="bg-gradient-to-b from-slate-50 to-white">
-          <div className="max-w-7xl mx-auto px-6 py-20 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div>
-              <motion.h1
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6 }}
-                className="text-4xl md:text-5xl font-extrabold leading-tight"
-              >
-                Creative strategy. Built for measurable growth.
-              </motion.h1>
+      <nav aria-label="Main navigation">
+        <a href="#services">Services</a>
+        <a href="#work">Work</a>
+        <a href="#insights">Insights</a>
+        <a class="btn-primary" href="#contact">Contact</a>
+      </nav>
+    </header>
 
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2, duration: 0.6 }}
-                className="mt-6 text-lg text-slate-600 max-w-xl"
-              >
-                We design integrated digital experiences — from awareness to conversion — for ambitious brands.
-                Our work blends human insight, creative excellence and data-driven media.
-              </motion.p>
+    <main>
+      <section class="hero" aria-labelledby="hero-heading">
+        <div class="hero-card">
+          <span class="kicker">We build measurable growth</span>
+          <h1 id="hero-heading">Crafting digital products & campaigns that move the needle</h1>
+          <p class="lead">Strategy · Creative · Media · Analytics. We combine product thinking and performance to deliver sustainable results for ambitious brands.</p>
+          <a class="btn-primary" href="#work" style="display:inline-block">See our work</a>
 
-              <div className="mt-8 flex gap-4">
-                <a href="#contact" className="inline-flex items-center gap-3 px-5 py-3 bg-slate-900 text-white rounded-md font-medium">Start a project</a>
-                <a href="#work" className="inline-flex items-center gap-3 px-5 py-3 border border-slate-200 rounded-md text-slate-700">See our work</a>
-              </div>
-
-              <div className="mt-8 text-sm text-slate-500">
-                <strong>Industries:</strong> Retail · Finance · Healthcare · Manufacturing
-              </div>
+          <div class="services-grid" aria-hidden="false" style="margin-top:20px">
+            <div class="service">
+              <h4>Experience Design</h4>
+              <p>UX / UI, prototyping and product strategy for customer-first experiences.</p>
             </div>
-
-            <div className="order-first md:order-last">
-              <div className="relative">
-                <div className="bg-gradient-to-br from-indigo-100 to-teal-50 p-6 rounded-2xl shadow-lg">
-                  <img
-                    src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1400&auto=format&fit=crop"
-                    alt="Campaign preview"
-                    className="w-full rounded-lg object-cover h-72"
-                  />
-                </div>
-                <div className="absolute -bottom-6 left-6 bg-white border border-slate-100 rounded-lg p-4 shadow-md w-64">
-                  <div className="text-xs text-slate-500">Latest campaign</div>
-                  <div className="font-semibold">Furniture brand launch — +42% conversion</div>
-                </div>
-              </div>
+            <div class="service">
+              <h4>Paid Media</h4>
+              <p>Performance-driven campaigns across search and social with A/B testing.</p>
+            </div>
+            <div class="service">
+              <h4>Creative & Content</h4>
+              <p>Story-led assets and motion to elevate your voice across channels.</p>
             </div>
           </div>
-        </section>
+        </div>
 
-        {/* Services */}
-        <section id="services" className="max-w-7xl mx-auto px-6 py-20">
-          <div className="text-center">
-            <div className="text-sm text-teal-600 font-medium">What we do</div>
-            <h2 className="text-3xl font-bold mt-2">Integrated services — strategy to activation</h2>
-            <p className="mt-3 text-slate-600 max-w-2xl mx-auto">Brand strategy, creative, content, UX, media buying and analytics — combined to drive measurable business outcomes.</p>
+        <aside class="visual" aria-labelledby="visual-heading">
+          <div class="bg-shape" aria-hidden="true"></div>
+          <h2 id="visual-heading" style="margin:0 0 6px">Featured project</h2>
+          <div class="work-preview" role="img" aria-label="Project preview">
+            Project: Aurora — UX & Growth
+          </div>
+          <p style="margin:0;color:var(--muted);font-size:13px;text-align:center">A multi-channel launch that increased conversions by 37% in 6 months.</p>
+        </aside>
+      </section>
+
+      <section id="work" aria-labelledby="work-heading">
+        <h2 id="work-heading" style="margin-top:26px">Selected case studies</h2>
+        <div class="cases">
+          <article class="case" aria-labelledby="c1">
+            <h3 id="c1">E-commerce replatform</h3>
+            <p class="muted">Full redesign + CRO program that lifted average order value and reduced churn.</p>
+          </article>
+          <article class="case" aria-labelledby="c2">
+            <h3 id="c2">Global product launch</h3>
+            <p class="muted">End-to-end product marketing and digital PR that scaled reach worldwide.</p>
+          </article>
+          <article class="case" aria-labelledby="c3">
+            <h3 id="c3">Brand refresh</h3>
+            <p class="muted">New identity, voice and digital system for a B2B SaaS portfolio.</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="insights" aria-labelledby="insights-heading">
+        <h2 id="insights-heading" style="margin-top:26px">Insights</h2>
+        <div class="insights" role="list">
+          <div class="insight" role="listitem">
+            <h4 style="margin:0 0 8px">How to structure high-performing campaigns</h4>
+            <p class="muted" style="margin:0">Practical tips to improve ROAS and scale safely.</p>
+          </div>
+          <div class="insight" role="listitem">
+            <h4 style="margin:0 0 8px">Design sprints for product teams</h4>
+            <p class="muted" style="margin:0">Run a low-cost experiment to validate your next big feature.</p>
+          </div>
+          <div class="insight" role="listitem">
+            <h4 style="margin:0 0 8px">Measurement & attribution</h4>
+            <p class="muted" style="margin:0">Simple frameworks to connect marketing to business outcomes.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="services" aria-labelledby="services-heading">
+        <h2 id="services-heading" style="margin-top:26px">Services</h2>
+        <p class="muted">We offer modular services — pick what you need or choose a full retainer.</p>
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:14px;margin-top:12px">
+          <div style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:16px;border-radius:12px;">
+            <h3 style="margin-top:0">Strategy & Planning</h3>
+            <ul class="muted">
+              <li>Audience research</li>
+              <li>Roadmaps & KPIs</li>
+              <li>Channel prioritization</li>
+            </ul>
+
+            <h3>Execution</h3>
+            <ul class="muted">
+              <li>Creative production</li>
+              <li>Ad account management</li>
+              <li>Optimization & reporting</li>
+            </ul>
           </div>
 
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { title: 'Brand & Strategy', desc: 'Positioning, research, experience strategy.' },
-              { title: 'Creative & Design', desc: 'Campaign creative, visual systems, motion.' },
-              { title: 'Media & Performance', desc: 'Paid social, search, programmatic, measurement.' },
-            ].map((s) => (
-              <motion.div key={s.title} whileHover={{ y: -6 }} className="p-6 border border-slate-100 rounded-xl bg-white">
-                <div className="text-sm text-teal-600 font-semibold">{s.title}</div>
-                <div className="mt-3 text-slate-700">{s.desc}</div>
-                <div className="mt-4 text-sm text-slate-500">From CAD $2,500/month</div>
-              </motion.div>
-            ))}
-          </div>
-        </section>
+          <aside style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:16px;border-radius:12px;">
+            <h4 style="margin:0 0 8px">Pricing starting at</h4>
+            <div style="font-weight:800;font-size:20px">$2,500 / month</div>
+            <p class="muted" style="margin-top:8px">Custom proposals based on scope, channels and goals.</p>
+            <a class="btn-primary" href="#contact" style="margin-top:12px;display:inline-block">Request proposal</a>
+          </aside>
+        </div>
+      </section>
 
-        {/* Case studies / Work gallery */}
-        <section id="work" className="bg-slate-50 py-20">
-          <div className="max-w-7xl mx-auto px-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <h3 className="text-2xl font-bold">Selected work</h3>
-                <p className="mt-2 text-slate-600">Award-winning integrated campaigns with measurable ROI.</p>
-              </div>
-              <a href="#work" className="text-sm text-slate-700">View all case studies →</a>
+      <section id="contact" aria-labelledby="contact-heading" style="margin-top:26px">
+        <h2 id="contact-heading">Contact</h2>
+        <div style="display:grid;grid-template-columns:1fr 320px;gap:14px;margin-top:12px">
+          <form onsubmit="handleSubmit(event)" style="background:rgba(255,255,255,0.02);padding:14px;border-radius:12px;">
+            <label style="display:block;font-size:13px;color:var(--muted)">Name</label>
+            <input id="name" required style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+            <label style="display:block;font-size:13px;color:var(--muted);margin-top:10px">Email</label>
+            <input id="email" type="email" required style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit" />
+            <label style="display:block;font-size:13px;color:var(--muted);margin-top:10px">Message</label>
+            <textarea id="msg" rows="5" required style="width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit"></textarea>
+            <div style="display:flex;justify-content:flex-end;margin-top:10px">
+              <button class="btn-primary" type="submit">Send message</button>
             </div>
+            <p id="status" style="color:var(--muted);margin-top:8px"></p>
+          </form>
 
-            <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <article key={i} className="rounded-lg overflow-hidden shadow-sm bg-white">
-                  <img src={https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=1400&auto=format&fit=crop} alt={case ${i}} className="h-48 w-full object-cover" />
-                  <div className="p-5">
-                    <div className="text-xs text-teal-600 font-medium">Retail</div>
-                    <h4 className="mt-2 font-semibold">Campaign Title {i}</h4>
-                    <p className="mt-2 text-sm text-slate-600">Short blurb about the challenge and results — +30% traffic, +18% revenue.</p>
-                    <div className="mt-4">
-                      <a className="text-sm text-slate-700">Read case study →</a>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
+          <aside style="background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.00));padding:14px;border-radius:12px;">
+            <h4 style="margin:0 0 8px">Office</h4>
+            <p class="muted" style="margin:0">Tallinn / Remote</p>
+            <p class="muted" style="margin-top:8px">hello@pulselab.example</p>
+          </aside>
+        </div>
+      </section>
+    </main>
 
-        {/* Insights / Blog */}
-        <section id="insights" className="max-w-7xl mx-auto px-6 py-20">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold">Insights</h3>
-            <p className="mt-2 text-slate-600">Thought leadership on creativity, media and technology.</p>
-          </div>
+    <footer>
+      <div>© <span id="yr"></span> Pulse Studio — digital experiences</div>
+      <div class="muted">Built with accessibility and performance in mind</div>
+    </footer>
+  </div>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="p-6 border border-slate-100 rounded-xl">
-                <div className="text-xs text-slate-500">Oct {10 + i}, 2025</div>
-                <h4 className="mt-2 font-semibold">Article title {i}</h4>
-                <p className="mt-2 text-sm text-slate-600">Brief summary of an article about media trends and measurement.</p>
-                <div className="mt-4 text-sm text-teal-600">Read →</div>
-              </div>
-            ))}
-          </div>
-        </section>
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    function handleSubmit(e){
+      e.preventDefault();
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const msg = document.getElementById('msg').value.trim();
+      const status = document.getElementById('status');
+      if(!name || !email || !msg){ status.textContent = 'Please complete all fields.'; return; }
+      status.textContent = 'Thanks! Your message was received (prototype).';
+      e.target.reset();
+      // Integrate with Formspree, Netlify Forms, or a backend endpoint to actually send the message.
+    }
 
-        {/* Contact CTA */}
-        <section id="contact" className="bg-gradient-to-r from-indigo-600 to-teal-500 text-white py-16">
-          <div className="max-w-4xl mx-auto px-6 text-center">
-            <h3 className="text-3xl font-bold">Let’s build something together</h3>
-            <p className="mt-3">Tell us about your challenge and we’ll propose an approach tailored to your goals.</p>
-
-            <div className="mt-8 flex flex-col sm:flex-row justify-center gap-4">
-              <a href="mailto:hello@qstagency.com" className="px-6 py-3 bg-white text-indigo-700 rounded-md font-medium inline-block">Email us</a>
-              <a href="#" className="px-6 py-3 border border-white rounded-md inline-block">Request proposal</a>
-            </div>
-          </div>
-        </section>
-
-        {/* Footer */}
-        <footer className="border-t border-slate-100">
-          <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div>
-              <div className="font-semibold">QST Agency</div>
-              <div className="mt-2 text-sm text-slate-500">Strategic digital experiences — Vancouver & remote.</div>
-            </div>
-
-            <div className="flex gap-8">
-              <div>
-                <div className="font-semibold">Services</div>
-                <ul className="mt-2 text-sm text-slate-600">
-                  <li>Brand & Strategy</li>
-                  <li>Creative</li>
-                  <li>Media</li>
-                </ul>
-              </div>
-
-              <div>
-                <div className="font-semibold">Contact</div>
-                <div className="mt-2 text-sm text-slate-600">hello@qstagency.com</div>
-                <div className="text-sm text-slate-600">+1 (604) 555-0123</div>
-              </div>
-            </div>
-
-            <div className="text-sm text-slate-500">© {new Date().getFullYear()} QST Agency. All rights reserved.</div>
-          </div>
-        </footer>
-      </main>
-    </div>
-  );
-}
+    // Small keyboard-accessible focus helper (trap mobile nav off-screen)
+    (function(){
+      // smooth scroll for internal links
+      document.querySelectorAll('a[href^="#"]').forEach(a=>{
+        a.addEventListener('click', e=>{
+          e.preventDefault();
+          const id = a.getAttribute('href').slice(1);
+          if(!id) return;
+          const el = document.getElementById(id);
+          if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
